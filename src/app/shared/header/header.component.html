@@ -1,4 +1,4 @@
-<header class="header" [ngClass]="{ 'with-bg': hasBg }">
+<header class="header bg-white/10">
   <div class="p-2 px-20 flex items-center justify-between">
     <img
       [src]="'assets/logo-' + theme + '.png'"
@@ -6,65 +6,11 @@
       class="max-w-20 hover:scale-105 transition-transform duration-300"
     />
 
-    <div class="gap-2 flex ml-[120px]">
-      <button
-        [routerLink]="'/landing/about'"
-        size="s"
-        appearance="secondary"
-        tuiButton
-        type="button"
-        [tuiAppearanceMode]="
-          isActive('/landing/about') ? 'checked' : 'secondary'
-        "
-      >
-        about
-      </button>
-      <button
-        [routerLink]="'/landing/recipes'"
-        size="s"
-        appearance="secondary"
-        tuiButton
-        type="button"
-        [tuiAppearanceMode]="
-          isActive('/landing/receips') || isActive('/landing/recipes')
-            ? 'checked'
-            : 'secondary'
-        "
-      >
-        recipes
-      </button>
-      <button
-        [routerLink]="'/landing/workout'"
-        size="s"
-        appearance="secondary"
-        tuiButton
-        type="button"
-        [tuiAppearanceMode]="
-          isActive('/landing/workout') ? 'checked' : 'secondary'
-        "
-      >
-        workout
-      </button>
-    </div>
-
     <div class="gap-2 flex">
-      <button
-        [routerLink]="'/login'"
-        size="m"
-        appearance="floating"
-        tuiButton
-        type="button"
-      >
-        login
-      </button>
-      <button
-        [routerLink]="'/register'"
-        size="m"
-        appearance="primary"
-        tuiButton
-        type="button"
-      >
-        sign up
+      <button *ngIf="isAuthenticated" (click)="openProfile()">
+        <tui-avatar appearance="primary" size="m" [style.background]="initials | tuiAutoColor">
+          {{ initials }}
+        </tui-avatar>
       </button>
 
       <button
@@ -79,3 +25,32 @@
     </div>
   </div>
 </header>
+
+<ng-template #template>
+  <label>Perfil do usuário</label>
+</ng-template>
+
+<ng-template
+  let-observer
+  [tuiSheetDialogOptions]="{ label: template, fullscreen: true }"
+  [(tuiSheetDialog)]="open"
+>
+  <div class="content p-4">
+    <section class="mb-4">
+      <div class="text-lg font-semibold">
+        {{ currentUser?.name || "Usuário" }}
+      </div>
+      <div class="text-sm opacity-70">{{ currentUser?.email }}</div>
+    </section>
+    <footer>
+      <button
+        tuiButton
+        type="button"
+        appearance="primary"
+        (click)="logout(); observer.complete()"
+      >
+        Logout
+      </button>
+    </footer>
+  </div>
+</ng-template>

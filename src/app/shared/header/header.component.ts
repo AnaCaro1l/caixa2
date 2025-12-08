@@ -1,13 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TuiButton, TuiLink } from '@taiga-ui/core';
+import { AuthService } from '../../services/auth.service';
+import { TuiAutoColorPipe, TuiButton, TuiLink } from '@taiga-ui/core';
+import { TuiAvatar } from '@taiga-ui/kit';
+import { TuiSheetDialog } from '@taiga-ui/addon-mobile';
 import { LucideAngularModule, Sun, Moon } from 'lucide-angular';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [TuiButton, LucideAngularModule, RouterLink, CommonModule],
+  imports: [
+    TuiButton,
+    LucideAngularModule,
+    CommonModule,
+    TuiAvatar,
+    TuiSheetDialog,
+    TuiAutoColorPipe,
+    FormsModule,
+    CommonModule,
+    TuiButton,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
@@ -18,6 +32,34 @@ export class HeaderComponent implements OnInit {
   theme: string = 'light';
   url: string = '';
   hasBg: boolean = false;
+
+  protected open = false;
+
+  protected floating = true;
+  protected secondAction = false;
+
+  protected search = '';
+
+  protected readonly items = new Array(15).fill(0).map((_, index) => ({
+    title: `Title ${index + 1}`,
+    description: `Description ${index + 1}`,
+  }));
+
+  isAuthenticated = false;
+  currentUser: { name: string; email: string } | null = null;
+
+  get initials(): string {
+    const name = this.currentUser?.name?.trim();
+    if (name) {
+      const parts = name.split(/\s+/).filter(Boolean);
+      const first = parts[0]?.[0] || '';
+      const last = parts.length > 1 ? parts[parts.length - 1]?.[0] || '' : '';
+      return (first + last).toUpperCase() || (name[0] || '').toUpperCase();
+    }
+    const email = this.currentUser?.email || '';
+    return email ? email[0].toUpperCase() : '';
+  }
+
 
   toggleTheme(): void {
     this.theme = this.theme === 'light' ? 'dark' : 'light';
@@ -44,7 +86,7 @@ export class HeaderComponent implements OnInit {
     } catch {}
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {
     try {
@@ -52,10 +94,10 @@ export class HeaderComponent implements OnInit {
       if (saved === 'dark' || saved === 'light') {
         this.theme = saved;
       } else {
-        this.theme = 'light'; // default to light when no saved preference
+        this.theme = 'light';
       }
     } catch {}
-    // Apply initial theme to <html> for Tailwind dark mode
+
     const html = document.documentElement;
     if (this.theme === 'dark') {
       html.classList.add('dark');
@@ -63,7 +105,6 @@ export class HeaderComponent implements OnInit {
       html.classList.remove('dark');
     }
 
-    // Sync Taiga UI root theme attribute on init
     const root = document.querySelector('tui-root');
     if (root) {
       if (this.theme === 'dark') {
@@ -72,32 +113,23 @@ export class HeaderComponent implements OnInit {
         root.removeAttribute('tuiTheme');
       }
     }
-    this.url = this.getUrl();
-    this.updateHeaderBg(this.url);
-    this.router.events.subscribe(() => {
-      const current = this.getUrl();
-      this.updateHeaderBg(current);
+
+    const session = this.auth.sessionValue;
+    this.isAuthenticated = !!session;
+    this.currentUser = session?.user ?? null;
+    this.auth.session$.subscribe(s => {
+      this.isAuthenticated = !!s;
+      this.currentUser = s?.user ?? null;
     });
   }
 
-  getUrl(): string {
-    return window.location.href;
+  openProfile(): void {
+    this.open = true;
   }
 
-  updateHeaderBg(url: string): void {
-    const lower = url.toLowerCase();
-    this.hasBg =
-      lower.includes('/landing/workout') || lower.includes('/landing/recipes');
-  }
-
-  isActive(path: string): boolean {
-    const current = (this.router.url || this.getUrl()).toLowerCase();
-    const target = path.toLowerCase();
-    return (
-      current === target ||
-      current.startsWith(target + '/') ||
-      current.startsWith(target + '?') ||
-      current.startsWith(target + '#')
-    );
+  logout(): void {
+    this.auth.clearSession();
+    this.open = false;
+    this.router.navigate(['/login']);
   }
 }
