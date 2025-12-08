@@ -5,6 +5,7 @@ declare namespace Express {
             name: string;
             email: string;
             cpf: string;
+            profile: number;
         }
     }
 }

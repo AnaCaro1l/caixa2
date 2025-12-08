@@ -16,13 +16,14 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decode = verify(token, process.env.JWT_SECRET);
-    const { id, name, email, cpf } = decode;
+    const { id, name, email, cpf, profile } = decode;
 
     req.user = {
       id: id,
       name: name,
       email: email,
       cpf: cpf,
+      profile: profile
     };
   } catch (error) {
     throw new AppError('Token inválido', 401);
