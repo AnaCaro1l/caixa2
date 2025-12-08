@@ -1,0 +1,81 @@
+<header class="header" [ngClass]="{ 'with-bg': hasBg }">
+  <div class="p-2 px-20 flex items-center justify-between">
+    <img
+      [src]="'assets/logo-' + theme + '.png'"
+      alt="HealthHub Logo"
+      class="max-w-20 hover:scale-105 transition-transform duration-300"
+    />
+
+    <div class="gap-2 flex ml-[120px]">
+      <button
+        [routerLink]="'/landing/about'"
+        size="s"
+        appearance="secondary"
+        tuiButton
+        type="button"
+        [tuiAppearanceMode]="
+          isActive('/landing/about') ? 'checked' : 'secondary'
+        "
+      >
+        about
+      </button>
+      <button
+        [routerLink]="'/landing/recipes'"
+        size="s"
+        appearance="secondary"
+        tuiButton
+        type="button"
+        [tuiAppearanceMode]="
+          isActive('/landing/receips') || isActive('/landing/recipes')
+            ? 'checked'
+            : 'secondary'
+        "
+      >
+        recipes
+      </button>
+      <button
+        [routerLink]="'/landing/workout'"
+        size="s"
+        appearance="secondary"
+        tuiButton
+        type="button"
+        [tuiAppearanceMode]="
+          isActive('/landing/workout') ? 'checked' : 'secondary'
+        "
+      >
+        workout
+      </button>
+    </div>
+
+    <div class="gap-2 flex">
+      <button
+        [routerLink]="'/login'"
+        size="m"
+        appearance="floating"
+        tuiButton
+        type="button"
+      >
+        login
+      </button>
+      <button
+        [routerLink]="'/register'"
+        size="m"
+        appearance="primary"
+        tuiButton
+        type="button"
+      >
+        sign up
+      </button>
+
+      <button
+        class="cursor-pointer"
+        size="m"
+        appearance="outline"
+        tuiIconButton
+        (click)="toggleTheme()"
+      >
+        <lucide-angular [img]="theme === 'light' ? Sun : Moon"></lucide-angular>
+      </button>
+    </div>
+  </div>
+</header>
