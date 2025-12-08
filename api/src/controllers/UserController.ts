@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateUserService } from "../services/CreateUserService";
+import { CreateUserService } from "../services/UserServices.ts/CreateUserService";
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
     const { name, email, cpf, password, profile } = req.body;

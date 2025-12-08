@@ -1,5 +1,5 @@
-import { AppError } from '../errors/AppError';
-import { User } from '../models/User';
+import { AppError } from '../../errors/AppError';
+import { User } from '../../models/User';
 import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 

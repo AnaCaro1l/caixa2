@@ -1,11 +1,11 @@
-import { AppError } from "../errors/AppError";
-import { User, UserProfile } from "../models/User";
+import { AppError } from "../../errors/AppError";
+import { User, UserProfile } from "../../models/User";
 import bcrypt from 'bcrypt';
 
 interface Request {
     name: string;
     email: string;
-    cpf: string;
+    cpf?: string;
     password: string;
     profile?: number;
 }

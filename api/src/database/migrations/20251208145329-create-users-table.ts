@@ -20,7 +20,7 @@ module.exports = {
       },
       cpf: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
       },
       passwordHash: {

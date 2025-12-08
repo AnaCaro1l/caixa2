@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User';
 import { AppError } from '../errors/AppError';
-import { AuthUserService } from '../services/AuthUserService';
+import { AuthUserService } from '../services/UserServices.ts/AuthUserService';
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
