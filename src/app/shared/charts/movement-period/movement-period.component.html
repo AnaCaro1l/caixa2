@@ -1,0 +1,86 @@
+<div class="w-[600px]">
+  <header tuiHeader>
+    <p tuiSubtitle>Movimentação por período</p>
+  </header>
+  <p class="flex gap-2 mt-2">
+    <tui-input-date-range
+      class="flex-1"
+      [maxLength]="maxLength"
+      [(ngModel)]="data"
+      (ngModelChange)="onDataChange($event)"
+    >
+      Data
+    </tui-input-date-range>
+    <tui-input-date-range
+      class="tui-space_left-4 flex-1"
+      [maxLength]="maxLength"
+      [(ngModel)]="show"
+    >
+      Visible range
+    </tui-input-date-range>
+  </p>
+  <p class="flex justify-between items-center mt-2">
+    <span class="font-medium">Tipo Movimentação</span>
+    <span class="flex gap-4 items-center">
+      @for (label of seriesLabels; track i; let i = $index) {
+        <span class="flex items-center gap-2">
+          <span class="inline-block w-3 h-3 rounded-full" [style.background]="seriesColors[i]"></span>
+          <small class="name">{{ label }}</small>
+        </span>
+      }
+    </span>
+  </p>
+
+  <div class="flex justify-end gap-6 my-2" *ngIf="totals(range) as totalsArr">
+    @for (label of seriesLabels; track i; let i = $index) {
+      <div class="flex items-center gap-2">
+        <small class="name">{{ label }}:</small>
+        <span class="name">${{ totalsArr[i] | number : '1.0-0' }}</span>
+      </div>
+    }
+  </div>
+  <tui-axes
+    *ngIf="labels(show) | async as labels"
+    class="axes"
+    [axisXLabels]="labels"
+    [axisYInset]="true"
+    [axisYLabels]="axisYLabels"
+    [horizontalLines]="4"
+    [tuiLineChartHint]="hint"
+    [verticalLines]="labels.length - 1"
+  >
+    <ng-container *ngIf="getWidth(show) > 90; else line">
+      <tui-line-days-chart
+        *ngFor="let chart of days"
+        class="chart"
+        [height]="200"
+        [value]="chart | tuiFilter : filter : range"
+      />
+    </ng-container>
+
+    <ng-template #line>
+      <tui-line-chart
+        *ngFor="let chart of days"
+        class="chart"
+        [height]="200"
+        [value]="
+          chart | tuiFilter : filter : range | tuiMapper : toNumbers : range
+        "
+        [width]="getWidth(range)"
+      />
+    </ng-template>
+  </tui-axes>
+
+  <ng-template #hint let-data>
+    <div class="tui-space_bottom-2">
+      <strong>{{ getDate(data[0][0], range.from) }}</strong>
+    </div>
+    <div>
+      @for (point of data; track $index) {
+      <div class="item">
+        <span class="value">${{ point[1].toFixed(0) }}</span>
+      </div>
+      }
+    </div>
+  </ng-template>
+</div>

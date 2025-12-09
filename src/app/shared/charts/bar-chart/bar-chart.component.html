@@ -1,0 +1,17 @@
+<header tuiHeader>
+  <p tuiSubtitle>Metas</p>
+</header>
+<div class="flex mt-2">
+    <tui-axes
+        class="axes"
+        [axisXLabels]="labelsX"
+        [axisYLabels]="labelsY"
+    >
+        <tui-bar-chart
+            [max]="10000"
+            [tuiHintAppearance]="appearance"
+            [tuiHintContent]="hint"
+            [value]="value"
+        />
+    </tui-axes>
+</div>
