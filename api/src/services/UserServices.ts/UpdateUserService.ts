@@ -28,12 +28,14 @@ export const UpdateUserService = async ({
 
   let { name, email, companyId, password, profile, departmentId } = userData;
 
-  const userExists = await User.findOne({
-    where: { email: email },
-  });
+  if (email) {
+    const userExists = await User.findOne({
+      where: { email: email },
+    });
 
-  if (userExists) {
-    throw new AppError('Este email já está em uso');
+    if (userExists) {
+      throw new AppError('Este email já está em uso');
+    }
   }
 
   if (password) {

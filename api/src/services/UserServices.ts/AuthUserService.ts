@@ -31,6 +31,8 @@ export const AuthUserService = async ({
       id: user.id,
       name: user.name,
       email: user.email,
+      companyId: user.companyId,
+      profile: user.profile,
     },
     process.env.JWT_SECRET,
     {

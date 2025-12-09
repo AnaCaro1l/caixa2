@@ -4,7 +4,8 @@ import { UpdateCompanyService } from '../services/CompanyServices/UpdateCompanyS
 import { ShowCompanyService } from '../services/CompanyServices/ShowCompanyService';
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
-  const { name, adminId } = req.body;
+  const { name } = req.body;
+  const adminId = req.user.id;
 
   const company = await CreateCompanyService({ name, adminId });
 
