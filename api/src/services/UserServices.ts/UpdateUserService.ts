@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 interface UserData {
   name?: string;
   email?: string;
-  cpf?: string;
+  companyId?: number;
   password?: string;
   profile?: number;
 }
@@ -25,7 +25,7 @@ export const UpdateUserService = async ({
     throw new AppError('Usuário não encontrado');
   }
 
-  let { name, email, cpf, password, profile } = userData;
+  let { name, email, companyId, password, profile } = userData;
 
   const userExists = await User.findOne({
     where: { email: email },

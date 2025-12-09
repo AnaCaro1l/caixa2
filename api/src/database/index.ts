@@ -3,6 +3,8 @@ import { Sequelize } from 'sequelize-typescript';
 import { Dialect } from 'sequelize';
 import { User } from '../models/User';
 import { Payment } from '../models/Payment';
+import { Company } from '../models/Company';
+import { Department } from '../models/Department';
 
 dotenv.config();
 
@@ -13,6 +15,6 @@ export const sequelize = new Sequelize({
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   port: Number(process.env.DB_PORT) || 3306,
-  models: [User, Payment],
+  models: [User, Payment, Department, Company],
   logging: false,
 });

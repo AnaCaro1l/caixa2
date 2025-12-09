@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 interface Request {
   name: string;
   email: string;
-  cpf?: string;
+  companyId?: number;
   password: string;
   profile?: number;
 }
@@ -13,7 +13,7 @@ interface Request {
 export const CreateUserService = async ({
   name,
   email,
-  cpf,
+  companyId,
   password,
   profile,
 }: Request): Promise<User> => {
@@ -31,9 +31,9 @@ export const CreateUserService = async ({
   const user = await User.create({
     name,
     email,
-    cpf,
+    companyId,
     passwordHash,
-    profile: UserProfile.VENDEDOR,
+    profile: profile ? profile : UserProfile.VENDEDOR,
   });
 
   return user;

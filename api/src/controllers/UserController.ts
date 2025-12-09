@@ -6,9 +6,9 @@ import { AppError } from '../errors/AppError';
 import { DeleteUserService } from '../services/UserServices.ts/DeleteUserService';
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
-  const { name, email, cpf, password, profile } = req.body;
+  const { name, email, companyId, password, profile } = req.body;
 
-  const user = await CreateUserService({ name, email, cpf, password, profile });
+  const user = await CreateUserService({ name, email, companyId, password, profile });
 
   return res.status(201).json(user);
 };

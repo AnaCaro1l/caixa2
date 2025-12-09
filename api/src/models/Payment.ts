@@ -1,9 +1,11 @@
 import {
   BelongsTo,
   Column,
+  CreatedAt,
   ForeignKey,
   Model,
   Table,
+  UpdatedAt,
 } from 'sequelize-typescript';
 import { User } from './User';
 
@@ -18,6 +20,14 @@ export class Payment extends Model<Payment> {
 
   @Column
   status: string;
+
+  @CreatedAt
+  @Column
+  createdAt: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt: Date;
 
   @BelongsTo(() => User)
   payer: User;
