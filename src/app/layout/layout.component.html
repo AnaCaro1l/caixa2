@@ -1,0 +1,104 @@
+<div class="flex flex-col h-screen w-full">
+  <header tuiNavigationHeader class="justify-between">
+    <div class="text-lg font-semibold ml-2">Caixa 2</div>
+    <div class="flex gap-2">
+      <button iconStart="@tui.bell" tuiIconButton type="button">
+        Notifications
+        <tui-badge-notification />
+      </button>
+      <button (click)="toggleTheme()" [iconStart]="theme === 'light' ? '@tui.sun' : '@tui.moon'" tuiIconButton type="button">
+        Theme
+      </button>
+      <button (click)="onOpenProfile()">
+        <tui-avatar src="AI" /> 
+      </button>
+    </div>
+  </header>
+
+  <div class="flex flex-1 min-h-0">
+    <aside
+      [tuiNavigationAside]="expanded()"
+      class="h-full"
+      [style.height.rem]="44.8"
+    >
+      <header>
+        <button
+          iconStart="@tui.layout-dashboard"
+          type="button"
+          [tuiAsideItem]="hint"
+          [routerLink]="['/dashboard']"
+        >
+          <ng-container [ngTemplateOutlet]="hint" />
+          <ng-template #hint>
+            <span tuiFade>Dashboard</span>
+          </ng-template>
+        </button>
+      </header>
+      <a iconStart="@tui.arrow-left-right" tuiAsideItem [routerLink]="['/transactions']"> Transactions </a>
+      <a iconStart="@tui.users" tuiAsideItem [routerLink]="['/reports']"> Reports </a>
+      <tui-aside-group>
+        <button
+          automation-id="setting"
+          iconStart="@tui.settings"
+          tuiAsideItem
+          tuiChevron
+          type="button"
+        >
+          Settings
+          <ng-template>
+            <button (click)="onOpenProfile()" tuiAsideItem type="button">
+              Account
+            </button>
+            <button tuiAsideItem type="button">Notifications</button>
+          </ng-template>
+        </button>
+      </tui-aside-group>
+      <footer>
+        <button
+          tuiAsideItem
+          type="button"
+          [iconStart]="expanded() ? '@tui.chevron-left' : '@tui.chevron-right'"
+          (click)="handleToggle()"
+        >
+          {{ expanded() ? "Collapse" : "Expand" }}
+        </button>
+      </footer>
+    </aside>
+
+    <main tuiNavigationMain class="flex-1 min-h-0 flex flex-col">
+      <div class="flex-1 min-h-0 w-full overflow-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Profile -->
+<ng-template #template>
+  <label>Perfil do usuário</label>
+</ng-template>
+
+<ng-template
+  let-observer
+  [tuiSheetDialogOptions]="{ label: template, fullscreen: true }"
+  [(tuiSheetDialog)]="open"
+>
+  <div class="content p-4">
+    <section class="mb-4">
+      <div class="text-lg font-semibold">
+        {{ getCurrentUser()?.name || "Usuário" }}
+      </div>
+      <div class="text-sm opacity-70">{{ getCurrentUser()?.email }}</div>
+    </section>
+    <footer>
+      <button
+        tuiButton
+        type="button"
+        appearance="primary"
+        (click)="logout(); observer.complete()"
+      >
+        Logout
+      </button>
+    </footer>
+  </div>
+</ng-template>

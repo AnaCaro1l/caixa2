@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { KeyValuePipe, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, signal } from '@angular/core';
+
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [],
+  imports: [
+    
+],
   templateUrl: './reports.component.html',
-  styleUrl: './reports.component.scss'
+  styleUrls: ['./reports.component.scss'],
 })
 export class ReportsComponent {
-
+ 
 }
