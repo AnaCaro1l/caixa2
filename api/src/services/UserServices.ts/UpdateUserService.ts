@@ -8,6 +8,7 @@ interface UserData {
   companyId?: number;
   password?: string;
   profile?: number;
+  departmentId?: number;
 }
 
 interface Request {
@@ -25,7 +26,7 @@ export const UpdateUserService = async ({
     throw new AppError('Usuário não encontrado');
   }
 
-  let { name, email, companyId, password, profile } = userData;
+  let { name, email, companyId, password, profile, departmentId } = userData;
 
   const userExists = await User.findOne({
     where: { email: email },

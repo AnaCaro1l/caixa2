@@ -1,6 +1,7 @@
 import { AppError } from '../../errors/AppError';
 import { User, UserProfile } from '../../models/User';
 import bcrypt from 'bcrypt';
+import { UserSchemas } from './schemas';
 
 interface Request {
   name: string;
@@ -17,6 +18,7 @@ export const CreateUserService = async ({
   password,
   profile,
 }: Request): Promise<User> => {
+  await UserSchemas.createUser.validate({ email, password });
   const userExists = await User.findOne({
     where: { email: email },
   });

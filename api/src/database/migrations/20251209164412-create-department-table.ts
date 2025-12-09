@@ -25,17 +25,7 @@ module.exports = {
       },
       supervisorId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      salerId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Users',
           key: 'id',
@@ -54,5 +44,7 @@ module.exports = {
     });
   },
 
-  async down(queryInterface: QueryInterface) {},
+  async down(queryInterface: QueryInterface) {
+    await queryInterface.dropTable('Departments');
+  },
 };

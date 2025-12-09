@@ -1,14 +1,15 @@
 import {
+  BelongsTo,
   Column,
   CreatedAt,
   ForeignKey,
   HasMany,
-  HasOne,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
 import { User } from './User';
+import { Payment } from './Payment';
 
 @Table
 export class Company extends Model<Company> {
@@ -19,14 +20,6 @@ export class Company extends Model<Company> {
   @Column
   adminId: number;
 
-  @ForeignKey(() => User)
-  @Column
-  managerId: number;
-
-  @ForeignKey(() => User)
-  @Column
-  salerId: number;
-
   @CreatedAt
   @Column
   createdAt: Date;
@@ -35,12 +28,15 @@ export class Company extends Model<Company> {
   @Column
   updatedAt: Date;
 
-  @HasMany(() => User, 'managerId')
+  @HasMany(() => Payment)
+  payments: Payment[];
+
+  @HasMany(() => User)
   managers: User[];
 
-  @HasMany(() => User, 'salerId')
+  @HasMany(() => User)
   salers: User[];
 
-  @HasOne(() => User, 'adminId')
+  @BelongsTo(() => User, 'adminId')
   admin: User;
 }

@@ -1,6 +1,7 @@
-import { BelongsTo, Column, CreatedAt, DataType, ForeignKey, HasMany, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { BelongsTo, Column, CreatedAt, DataType, ForeignKey, HasMany, HasOne, Model, Table, UpdatedAt } from 'sequelize-typescript';
 import { Payment } from './Payment';
 import { Company } from './Company';
+import { Department } from './Department';
 
 export enum UserProfile {
     ADMIN = 99,
@@ -21,6 +22,10 @@ export class User extends Model<User> {
   @Column
   companyId: number;
 
+  @ForeignKey(() => Department)
+  @Column
+  departmentId: number;
+
   @Column(DataType.VIRTUAL)
   password: string;
 
@@ -38,11 +43,10 @@ export class User extends Model<User> {
   @Column
   updatedAt: Date;
 
-  @HasMany(() => Payment)
-  payments: Payment[];
-
-  @BelongsTo(() => Company)
+  @HasOne(() => Company)
   company: Company;
 
+  @HasMany(() => Department)
+  department: Department;
 
 }

@@ -8,18 +8,26 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 import { User } from './User';
+import { Company } from './Company';
 
 @Table
 export class Payment extends Model<Payment> {
-  @ForeignKey(() => User)
-  @Column
-  payerId: number;
 
   @Column
   value: number;
 
   @Column
-  status: string;
+  status: 'pago' | 'pendente' | 'atrasado';
+
+  @Column
+  paymentLink: string;
+
+  @Column
+  dueDate: Date;
+
+  @ForeignKey(() => Company)
+  @Column
+  companyId: number;
 
   @CreatedAt
   @Column
@@ -29,6 +37,7 @@ export class Payment extends Model<Payment> {
   @Column
   updatedAt: Date;
 
-  @BelongsTo(() => User)
-  payer: User;
+  @BelongsTo(() => Company)
+  company: Company;
+
 }

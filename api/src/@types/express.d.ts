@@ -4,7 +4,7 @@ declare namespace Express {
             id: number;
             name: string;
             email: string;
-            cpf: string;
+            companyId: number;
             profile: number;
         }
     }

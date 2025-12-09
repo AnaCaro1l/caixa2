@@ -1,4 +1,4 @@
-import { BelongsTo, Column, CreatedAt, ForeignKey, HasMany, HasOne, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { BelongsTo, Column, CreatedAt, ForeignKey, HasMany, Model, Table, UpdatedAt } from "sequelize-typescript";
 import { User } from "./User";
 import { Company } from "./Company";
 
@@ -16,10 +16,6 @@ export class Department extends Model<Department> {
     @Column
     supervisorId: number;
 
-    @ForeignKey(() => User)
-    @Column
-    salerId: number;
-
     @CreatedAt
     @Column
     createdAt: Date;
@@ -28,10 +24,7 @@ export class Department extends Model<Department> {
     @Column
     updatedAt: Date;
 
-    @HasMany(() => User, 'salerId')
-    salers: User[];
-
-    @HasOne(() => User, 'supervisorId')
+    @BelongsTo(() => User, 'supervisorId')
     supervisor: User;
 
     @BelongsTo(() => Company)
