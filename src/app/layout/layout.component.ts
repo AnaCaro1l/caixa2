@@ -1,6 +1,6 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { TuiButton, TuiHint } from '@taiga-ui/core';
 import {
   TuiAvatar,
@@ -25,7 +25,8 @@ import { TuiSheetDialog } from '@taiga-ui/addon-mobile';
     TuiChevron,
     RouterOutlet,
     TuiSheetDialog,
-    RouterLink
+    RouterLink,
+    CommonModule
 ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
@@ -35,7 +36,7 @@ export class LayoutComponent {
   protected open = false;
   protected expanded = signal(false);
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   handleToggle(): void {
     this.expanded.update((e) => !e);
@@ -85,6 +86,8 @@ export class LayoutComponent {
   }
 
   logout() {
+    localStorage.setItem('auth', 'false');
     this.authService.clearSession();
+    this.router.navigate(['/login']);
   }
 }

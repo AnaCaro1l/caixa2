@@ -18,8 +18,7 @@
   <div class="flex flex-1 min-h-0">
     <aside
       [tuiNavigationAside]="expanded()"
-      class="h-full"
-      [style.height.rem]="44.8"
+      class=""
     >
       <header>
         <button
@@ -35,7 +34,7 @@
         </button>
       </header>
       <a iconStart="@tui.arrow-left-right" tuiAsideItem [routerLink]="['/transactions']"> Transactions </a>
-      <a iconStart="@tui.users" tuiAsideItem [routerLink]="['/reports']"> Reports </a>
+      <a iconStart="@tui.chart-no-axes-combined" tuiAsideItem [routerLink]="['/reports']"> Reports </a>
       <tui-aside-group>
         <button
           automation-id="setting"
@@ -65,7 +64,7 @@
       </footer>
     </aside>
 
-    <main tuiNavigationMain class="flex-1 min-h-0 flex flex-col">
+    <main tuiNavigationMain class="flex-1 flex h-full flex-col overflow-auto relative">
       <div class="flex-1 min-h-0 w-full overflow-auto">
         <router-outlet></router-outlet>
       </div>
