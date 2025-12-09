@@ -18,8 +18,8 @@ import {
   TuiTextfield,
 } from '@taiga-ui/core';
 import { TuiPassword } from '@taiga-ui/kit';
-import { UserService } from '../../services/user.service';
-import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../core/services/user.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
