@@ -9,7 +9,7 @@ import {
   TuiChevron,
 } from '@taiga-ui/kit';
 import { TuiNavigation } from '@taiga-ui/layout';
-import { AuthService, AuthSession } from '../services/auth.service';
+import { AuthService, AuthSession } from '../core/services/auth.service';
 import { TuiSheetDialog } from '@taiga-ui/addon-mobile';
 
 @Component({
