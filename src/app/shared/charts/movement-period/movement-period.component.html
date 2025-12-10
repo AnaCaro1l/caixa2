@@ -1,4 +1,4 @@
-<div class="w-[600px]">
+<div class="w-full max-w-[800px]">
   <header tuiHeader>
     <p tuiSubtitle>Movimentação por período</p>
   </header>
@@ -41,7 +41,7 @@
   </div>
   <tui-axes
     *ngIf="labels(show) | async as labels"
-    class="axes"
+    class="axes w-full"
     [axisXLabels]="labels"
     [axisYInset]="true"
     [axisYLabels]="axisYLabels"
@@ -52,7 +52,7 @@
     <ng-container *ngIf="getWidth(show) > 90; else line">
       <tui-line-days-chart
         *ngFor="let chart of days"
-        class="chart"
+        class="chart w-full"
         [height]="200"
         [value]="chart | tuiFilter : filter : range"
       />
@@ -61,7 +61,7 @@
     <ng-template #line>
       <tui-line-chart
         *ngFor="let chart of days"
-        class="chart"
+        class="chart w-full"
         [height]="200"
         [value]="
           chart | tuiFilter : filter : range | tuiMapper : toNumbers : range

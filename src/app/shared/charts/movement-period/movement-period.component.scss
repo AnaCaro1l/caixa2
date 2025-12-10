@@ -33,6 +33,7 @@
   block-size: 12.5rem;
   position: relative;
   display: block;
+  inline-size: 100%;
 }
 
 .name {
@@ -45,4 +46,5 @@
 
 .chart {
   @include color();
+  inline-size: 100%;
 }
