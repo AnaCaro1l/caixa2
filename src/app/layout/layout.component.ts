@@ -1,5 +1,5 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { TuiButton, TuiHint } from '@taiga-ui/core';
 import {
@@ -31,12 +31,23 @@ import { TuiSheetDialog } from '@taiga-ui/addon-mobile';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
-export class LayoutComponent {
-  theme: string = 'light';
+export class LayoutComponent implements OnInit {
+  theme: string = 'dark';
   protected open = false;
   protected expanded = signal(false);
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    try {
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark') {
+        this.theme = stored;
+      }
+    } catch {}
+
+    this.applyTheme(this.theme);
+  }
 
   handleToggle(): void {
     this.expanded.update((e) => !e);
@@ -44,8 +55,14 @@ export class LayoutComponent {
 
   toggleTheme(): void {
     this.theme = this.theme === 'light' ? 'dark' : 'light';
-    const isDark = this.theme === 'dark';
+    this.applyTheme(this.theme);
+    try {
+      localStorage.setItem('theme', this.theme);
+    } catch {}
+  }
 
+  private applyTheme(theme: string): void {
+    const isDark = theme === 'dark';
     const html = document.documentElement;
     if (isDark) {
       html.classList.add('dark');
@@ -61,10 +78,6 @@ export class LayoutComponent {
         root.removeAttribute('tuiTheme');
       }
     }
-
-    try {
-      localStorage.setItem('theme', this.theme);
-    } catch {}
   }
 
   onOpenProfile(): void {
