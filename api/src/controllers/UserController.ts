@@ -28,7 +28,7 @@ export const update = async (
   const userData = req.body;
   const userProfile = req.user.profile;
 
-  if (userProfile < 50) {
+  if (Number(userId) !== req.user.id && userProfile < 50) {
     throw new AppError('Você não tem permissão para atualizar usuários', 403);
   }
 
