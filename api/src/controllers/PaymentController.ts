@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { CreatePaymentService } from '../services/PaymentServices/CreatePaymentService';
 import { ListPaymentsService } from '../services/PaymentServices/ListPaymentsServices';
 import { ShowPaymentService } from '../services/PaymentServices/ShowPaymentService';
+import { DeletePaymentService } from '../services/PaymentServices/DeletePaymentService';
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
   const { value, dueDate } = req.body;
@@ -27,3 +28,15 @@ export const show = async (req: Request, res: Response): Promise<Response> => {
 
   return res.status(200).json(payment);
 };
+
+export const remove = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const id = req.params.id;
+  const userProfile = req.user.profile;
+  
+  await DeletePaymentService(id);
+
+  return res.status(204).send();
+}

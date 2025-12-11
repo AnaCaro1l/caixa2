@@ -3,6 +3,7 @@ import { CreateDepartmentService } from '../services/DepartmentServices/CreateDe
 import { ShowDepartmentService } from '../services/DepartmentServices/ShowDepartmentService';
 import { UpdateDepartmentService } from '../services/DepartmentServices/UpdateDepartmentService';
 import { AppError } from '../errors/AppError';
+import { DeleteDepartmentService } from '../services/DepartmentServices/DeleteDepartmentService';
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
   const { name, supervisorId } = req.body;
@@ -43,3 +44,18 @@ export const update = async (
 
   return res.status(200).json(updatedDepartment);
 };
+
+export const remove = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const id = req.params.id;
+  const userProfile = req.user.profile;
+
+  if (userProfile < 99) {
+    throw new AppError('Você não tem permissão para deletar departamentos', 403);
+  }
+  await DeleteDepartmentService(id);
+
+  return res.status(204).send();
+}
