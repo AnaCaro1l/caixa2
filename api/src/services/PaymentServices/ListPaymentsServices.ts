@@ -1,18 +1,34 @@
-import { AppError } from "../../errors/AppError";
-import { Payment } from "../../models/Payment";
+import { AppError } from '../../errors/AppError';
+import { Payment } from '../../models/Payment';
+import { Op, WhereOptions } from 'sequelize';
 
 interface Request {
-    companyId: number;
+  companyId: number;
+  rangeDate?: [string, string];
+  userId?: number;
 }
 
+export const ListPaymentsService = async ({
+  companyId,
+  rangeDate,
+  userId,
+}: Request) => {
+  let whereOptions: WhereOptions<Payment> = { companyId };
 
-export const ListPaymentsService = async ({ companyId }: Request) => {
-    const payments = await Payment.findAll({ where: { companyId } });
+  if (rangeDate && rangeDate.length === 2) {
+    whereOptions = {
+      ...whereOptions,
+      createdAt: {
+        [Op.between]: rangeDate,
+      },
+    };
+  }
 
-    if (!payments) {
-        throw new AppError('Nenhum pagamento encontrado para esta empresa');
-    }
+  const payments = await Payment.findAll({ where: { ...whereOptions } });
 
-    return payments;
+  if (!payments) {
+    throw new AppError('Nenhum pagamento encontrado para esta empresa');
+  }
 
-}
+  return payments;
+};

@@ -4,6 +4,11 @@ import { ListPaymentsService } from '../services/PaymentServices/ListPaymentsSer
 import { ShowPaymentService } from '../services/PaymentServices/ShowPaymentService';
 import { DeletePaymentService } from '../services/PaymentServices/DeletePaymentService';
 
+type IndexQuery = {
+  rangeDate: string;
+  userId: string;
+};
+
 export const store = async (req: Request, res: Response): Promise<Response> => {
   const { value, dueDate } = req.body;
   const companyId = req.user.companyId;
@@ -14,9 +19,14 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
 };
 
 export const list = async (req: Request, res: Response): Promise<Response> => {
+  const { rangeDate, userId } = req.query as IndexQuery;
   const companyId = req.user.companyId;
 
-  const payments = await ListPaymentsService({ companyId });
+  const payments = await ListPaymentsService({
+    companyId,
+    rangeDate: JSON.parse(rangeDate || '[]'),
+    userId: JSON.parse(userId || 'null'),
+  });
 
   return res.status(200).json(payments);
 };
@@ -35,8 +45,8 @@ export const remove = async (
 ): Promise<Response> => {
   const id = req.params.id;
   const userProfile = req.user.profile;
-  
+
   await DeletePaymentService(id);
 
   return res.status(204).send();
-}
+};
