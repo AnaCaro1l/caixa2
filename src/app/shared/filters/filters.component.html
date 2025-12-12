@@ -1,0 +1,44 @@
+<div class="flex flex-col gap-2">
+  <h1 class="text-xl">Filtros</h1>
+  <form
+    [formGroup]="filtersForm"
+    (ngSubmit)="onSubmit()"
+    class="w-full gap-2 flex justify-between"
+  >
+    <div class="flex gap-2">
+      <tui-textfield [content]="content" class="w-[15vw]">
+        <label tuiLabel>Escolha o intervalo</label>
+        <input tuiInputDateRange formControlName="dateRange" [max]="max" />
+        <tui-calendar-range *tuiTextfieldDropdown [items]="items" />
+      </tui-textfield>
+
+      <tui-textfield
+        tuiChevron
+        tuiDropdownMobile="Selecione o usuário"
+        class="tui-space_vertical-4 w-[15vw]"
+        [content]="template"
+      >
+        <input placeholder="Selecione o usuário" tuiSelect formControlName="user" />
+        <tui-data-list-wrapper
+          *tuiTextfieldDropdown
+          new
+          [itemContent]="template"
+          [items]="users"
+        />
+      </tui-textfield>
+    </div>
+
+    <div>
+      <button tuiButton type="submit">Aplicar</button>
+    </div>
+  </form>
+</div>
+
+<ng-template #template let-user>
+  <span tuiCell>
+    <tui-avatar [src]="user.url" />
+    <span tuiTitle>
+      <span tuiFade>{{ user.name }}</span>
+    </span>
+  </span>
+</ng-template>

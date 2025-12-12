@@ -1,1 +1,75 @@
-<p>transactions works!</p>
+<div class="py-4 items-center gap-4 flex flex-col">
+  <div
+    class="justify-between flex w-full gap-4 md:gap-0 md:flex-row flex-col items-start md:items-center"
+  >
+    <h1 class="text-2xl font-bold">Transações</h1>
+    <div class="flex gap-2">
+      <tui-textfield
+        tuiTextfieldSize="m"
+        iconStart="@tui.search"
+        class="w-[20vw]"
+      >
+        <input
+          tuiTextfield
+          [(ngModel)]="value"
+          placeholder="Buscar transações"
+        />
+      </tui-textfield>
+      <button size="m" tuiButton type="button">Adicionar</button>
+    </div>
+  </div>
+  <div class="w-full">
+    <app-filters></app-filters>
+  </div>
+  <div class="mt-5 w-full">
+    <table tuiTable size="l" class="w-full">
+      <thead>
+        <tr>
+          <th tuiTh>
+            <div tuiCell="m">
+              <input tuiCheckbox tuiCheckboxTable [(ngModel)]="allchecked" type="checkbox" size="m" />
+            </div>
+          </th>
+          <th tuiTh>Data</th>
+          <th tuiTh>Usuário</th>
+          <th tuiTh>Descrição</th>
+          <th tuiTh>Valor</th>
+          <th tuiTh>Status</th>
+          <th tuiTh>Ações</th>
+        </tr>
+      </thead>
+      <tbody tuiTbody>
+        <tr>
+          <td tuiTd>
+            <div tuiCell="m">
+              <input tuiCheckbox tuiCheckboxTable [(ngModel)]="value" type="checkbox" size="m" />
+            </div>
+          </td>
+          <td tuiTd>01/01/2024</td>
+          <td tuiTd>João Silva</td>
+          <td tuiTd>Compra de materiais</td>
+          <td tuiTd>R$ 150,00</td>
+          <td tuiTd>Concluído</td>
+          <td tuiTd>
+            <button
+              tuiIconButton
+              iconStart="@tui.ellipsis-vertical"
+              type="button"
+              size="s"
+              appearance="flat"
+              [tuiAppearanceState]="open ? 'hover' : null"
+              [tuiDropdown]="content"
+              [(tuiDropdownOpen)]="open"
+            ></button>
+            <ng-template #content>
+              <tui-data-list tuiDataListDropdownManager size="m">
+                <button tuiOption type="button">Editar</button>
+                <button tuiOption type="button">Excluir</button>
+              </tui-data-list>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
