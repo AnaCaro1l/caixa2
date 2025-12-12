@@ -6,7 +6,6 @@ import { Department } from './Department';
 export enum UserProfile {
     ADMIN = 99,
     SUPERVISOR = 50,
-    GERENTE = 10,
     VENDEDOR = 1
 }
 
