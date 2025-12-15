@@ -22,12 +22,17 @@
     <app-filters></app-filters>
   </div>
   <div class="mt-5 w-full">
-    <table tuiTable size="l" class="w-full">
+    <table tuiTable [(ngModel)]="selected" size="l" class="w-full">
       <thead>
         <tr>
           <th tuiTh>
             <div tuiCell="m">
-              <input tuiCheckbox tuiCheckboxTable [(ngModel)]="allchecked" type="checkbox" size="m" />
+              <input
+                tuiCheckbox
+                tuiCheckboxTable
+                type="checkbox"
+                size="m"
+              />
             </div>
           </th>
           <th tuiTh>Data</th>
@@ -39,17 +44,28 @@
         </tr>
       </thead>
       <tbody tuiTbody>
+        @for (transaction of transactions; track $index) {
+
         <tr>
           <td tuiTd>
             <div tuiCell="m">
-              <input tuiCheckbox tuiCheckboxTable [(ngModel)]="value" type="checkbox" size="m" />
+              <input
+                tuiCheckbox
+                [tuiCheckboxRow]="transaction"
+                type="checkbox"
+                size="m"
+              />
             </div>
           </td>
-          <td tuiTd>01/01/2024</td>
+          <td tuiTd>{{ transaction.updateAt | date }}</td>
           <td tuiTd>João Silva</td>
           <td tuiTd>Compra de materiais</td>
-          <td tuiTd>R$ 150,00</td>
-          <td tuiTd>Concluído</td>
+          <td tuiTd>{{ transaction.value | currency : "BRL" }}</td>
+          <td tuiTd>
+            <tui-badge [appearance]="getAppearance(transaction.status)" tuiStatus>
+              {{ transaction.status }}
+            </tui-badge>
+          </td>
           <td tuiTd>
             <button
               tuiIconButton
@@ -69,6 +85,7 @@
             </ng-template>
           </td>
         </tr>
+        }
       </tbody>
     </table>
   </div>
